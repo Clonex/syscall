@@ -5,7 +5,7 @@
 #include "arch/x86/include/generated/uapi/asm/unistd_64.h"
 
 int main(int argc, char ** argv) {
-	printf("Calling ... \n");
+	printf("Testing ... \n");
     int length = sizeof(char);
     char temp = 'A';
     printf("Input %c\n", &temp);
