@@ -77,8 +77,3 @@ int sys_dm510_msgbox_get( char* buffer, int length ) {
 	}
 	return -EFAULT; // Bad address
 }
-
-int main ( void ) {
-	/* test code here */
-	return 0;
-}
