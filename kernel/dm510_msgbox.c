@@ -20,12 +20,12 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 		return -EINVAL; // Invalid argument
 	}
 	if( access_ok(buffer, length) ){
-		msg_t* msg = kmalloc(sizeof(msg_t), GFP_KERNEL);
+		msg_t* msg = kmalloc(sizeof(msg_t));
 
 		if( msg != NULL ){
 			msg->previous = NULL;
 			msg->length = length;
-			msg->message = kmalloc(length, GFP_KERNEL);
+			msg->message = kmalloc(length);
 
 			if( msg->message == NULL ){
 				return -ENOMEM; // Out of memory (the only case kmalloc returns NULL)
