@@ -359,8 +359,8 @@
 435	common	clone3			__x64_sys_clone3/ptregs
 437	common	openat2			__x64_sys_openat2
 438	common	pidfd_getfd		__x64_sys_pidfd_getfd
-439	common	__NR_dm510_msgbox_put		__x64_sys___NR_dm510_msgbox_put
-440	common	__NR_dm510_msgbox_get		__x64_sys___NR_dm510_msgbox_get
+439	common	dm510_msgbox_put		sys_dm510_msgbox_put
+440	common	dm510_msgbox_get		sys_dm510_msgbox_get
 
 #
 # x32-specific system call numbers start at 512 to avoid cache impact
