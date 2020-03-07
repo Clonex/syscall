@@ -1,11 +1,8 @@
 #include "linux/kernel.h"
 #include "linux/unistd.h"
-#include <stdlib.h>
-#include <string.h>
 #include <linux/slab.h>
 #include <linux/uaccess.h>
 #include "linux/errno.h"
-
 
 typedef struct _msg_t msg_t;
 
