@@ -8,11 +8,11 @@ int main(int argc, char ** argv) {
 	printf("Testing ... \n");
     int length = sizeof(char);
     char temp = 'A';
-    printf("Input %c\n", temp);
+    printf("Input: %c\n", temp);
 	syscall(__NR_dm510_msgbox_put, &temp, length);
 
     char* ret = malloc(length);
 	syscall(__NR_dm510_msgbox_get, ret, length);
 
-    printf("Ret %c\n", *ret);
+    printf("Output: %c\n", *ret);
 }
