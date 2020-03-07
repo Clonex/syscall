@@ -6,7 +6,7 @@
 
 int main(int argc, char ** argv) {
 	printf("Testing ... \n");
-    for(int = 0; i < 1000; i++)
+    for(int i = 0; i < 1000; i++)
     {
         int length = sizeof(char);
         char temp = 'A';
