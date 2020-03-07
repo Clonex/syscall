@@ -16,6 +16,7 @@ static msg_t *bottom = NULL;
 static msg_t *top = NULL;
 
 int sys_dm510_msgbox_put( char *buffer, int length ){
+	unsigned long flags;
 	if( length < 0 ){
 		return -EINVAL; // Invalid argument
 	}
@@ -32,6 +33,7 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 			}
 
 			if( copy_from_user( msg->message, buffer, length ) == 0 ){ // Copied everything
+				local_irq_save(flags);
 				if(bottom == NULL){
 					bottom = msg;
 					top = msg;
@@ -41,6 +43,7 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 					msg->previous = top;
 					top = msg;
 				}
+				local_irq_restore(flags);
 				return 0;
 			}
 			return -EAGAIN; // Try again
@@ -51,6 +54,7 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 }
 
 int sys_dm510_msgbox_get( char* buffer, int length ) {
+	unsigned long flags;
 	if( length < 0 ){
 		return -EINVAL; // Invalid argument
 	}
@@ -58,6 +62,7 @@ int sys_dm510_msgbox_get( char* buffer, int length ) {
 		return -ENODATA; // No data available
 	}
 	if( access_ok(buffer, length) ){
+		local_irq_save(flags);
 		msg_t* msg = top;
 		char *tmp = msg->message;
 		int mlength = msg->length;
@@ -70,9 +75,11 @@ int sys_dm510_msgbox_get( char* buffer, int length ) {
 			/* free memory */
 			kfree(tmp);
 			kfree(msg);
+			local_irq_restore(flags);
 
 			return mlength;
 		}
+		local_irq_restore(flags);
 		return -EAGAIN; // Try again
 	}
 	return -EFAULT; // Bad address
