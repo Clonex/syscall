@@ -17,7 +17,7 @@ static msg_t *top = NULL;
 
 int dm510_msgbox_put( char *buffer, int length ){
 	if( length < 0 ){
-		return -22; //Invalid argument
+		return EINVAL; //Invalid argument
 	}
 	else if( access_ok(buffer, length) ){
 		msg_t* msg = kmalloc(sizeof(msg_t), GFP_KERNEL);
