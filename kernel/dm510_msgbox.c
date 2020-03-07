@@ -17,7 +17,7 @@ struct _msg_t{
 static msg_t *bottom = NULL;
 static msg_t *top = NULL;
 
-int dm510_msgbox_put( char *buffer, int length ){
+int sys_dm510_msgbox_put( char *buffer, int length ){
 	if( length < 0 ){
 		return -EINVAL; // Invalid argument
 	}
@@ -52,7 +52,7 @@ int dm510_msgbox_put( char *buffer, int length ){
 	return -EFAULT; // Bad address
 }
 
-int dm510_msgbox_get( char* buffer, int length ) {
+int sys_dm510_msgbox_get( char* buffer, int length ) {
 	if( length < 0 ){
 		return -EINVAL; // Invalid argument
 	}
