@@ -68,8 +68,8 @@ int sys_dm510_msgbox_get( char* buffer, int length ) {
 			top = msg->previous;
 
 			/* free memory */
-			kfree(tmp, GFP_KERNEL);
-			kfree(msg, GFP_KERNEL);
+			kfree(tmp);
+			kfree(msg);
 
 			return mlength;
 		}
