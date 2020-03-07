@@ -1,4 +1,4 @@
-#include "dm510_msgbox.h"
+#include "../include/asm/dm510_msgbox.h"
 #include <stdlib.h>
 #include <string.h>
 #include <linux/slab.h>
