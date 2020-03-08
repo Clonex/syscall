@@ -39,6 +39,6 @@ int main(int argc, char ** argv) {
 	printf("[Input order] Test 3: %s\n", *ret == 'A' ? successMsg : failedMsg);
 
 	syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("[Empty stack] Test 4: %d\n", ret);
+	printf("[Empty stack] Test 4: %d\n", errno);
 	free(ret);
 }
