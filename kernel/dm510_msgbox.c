@@ -54,7 +54,6 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 }
 
 int sys_dm510_msgbox_get( char* buffer, int length ) {
-	return -1;
 	unsigned long flags;
 	if( length < 0 ){
 		return -EINVAL; // Invalid argument
