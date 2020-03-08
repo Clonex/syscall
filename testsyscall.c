@@ -27,12 +27,12 @@ int main(int argc, char ** argv) {
 
 	ret = malloc(length);
 	syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("Input 1 %s\n", *ret == 'C' ? "\033[0;32mPASSED\033[0m;" : "\033[0;31mFAILED\033[0m;"));
+	printf("Input 1 %s\n", *ret == 'C' ? "\033[0;32mPASSED\033[0m;" : "\033[0;31mFAILED\033[0m;");
 
 	syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("Input 2 %s\n", *ret == 'B' ? "\033[0;32mPASSED\033[0m;" : "\033[0;31mFAILED\033[0m;"));
+	printf("Input 2 %s\n", *ret == 'B' ? "\033[0;32mPASSED\033[0m;" : "\033[0;31mFAILED\033[0m;");
 
 	syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("Input 3 %s\n", *ret == 'A' ? "\033[0;32mPASSED\033[0m;" : "\033[0;31mFAILED\033[0m;"));
+	printf("Input 3 %s\n", *ret == 'A' ? "\033[0;32mPASSED\033[0m;" : "\033[0;31mFAILED\033[0m;");
 	free(ret);
 }
