@@ -45,7 +45,7 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 				}
 				/* These lines are for testing */
 				printk("msg_t attributes:\n");
-				printk("	previous: %p", msg->previous);
+				printk("	previous == NULL?: %d", msg->previous == NULL);
 				printk("	length: %d", msg->length);
 				printk("	message: %s", msg->message);
 				/* Testing done */
