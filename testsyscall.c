@@ -9,12 +9,19 @@ int main(int argc, char ** argv) {
 	char str[50] = "This is a stupid message.";
    	int length = sizeof(str);
 
-    	printf("Input: %s\n", str);
-    	syscall(__NR_dm510_msgbox_put, str, length);
-
-    	char* ret = malloc(length);
-    	for(int i = 0; i < 10; i++){
-		syscall(__NR_dm510_msgbox_get, ret, 10);
-	    	printf("Output%d: %s\n", i, ret);
+	int inputSize = 10;
+    	syscall(__NR_dm510_msgbox_put, str, inputSize);
+    	printf("Input: ");
+	for( int i = 0; i < inputSize; i++){
+		printf("%c", str[i]);
 	}
+	printf("\n");
+
+
+//    	for(int i = 0; i < 10; i++){
+		char* ret = malloc(length);
+		syscall(__NR_dm510_msgbox_get, ret, 25);
+	    	printf("Output: %s\n", ret);
+		free(ret);
+//	}
 }
