@@ -6,13 +6,15 @@
 
 int main(int argc, char ** argv) {
 	printf("Testing ... \n");
-    char str[50] = "This is a stupid message.";
-    int length = sizeof(str);
-    printf("Input: %s\n", str);
-    syscall(__NR_dm510_msgbox_put, str, length);
+	char str[50] = "This is a stupid message.";
+   	int length = sizeof(str);
 
-    char* ret = malloc(length);
-    syscall(__NR_dm510_msgbox_get, ret, 10);
+    	printf("Input: %s\n", str);
+    	syscall(__NR_dm510_msgbox_put, str, length);
 
-    printf("Output: %s\n", ret);
+    	char* ret = malloc(length);
+    	for(int i = 0; i < 10; i++){
+		syscall(__NR_dm510_msgbox_get, ret, 10);
+	    	printf("Output%d: %s\n", i, ret);
+	}
 }
