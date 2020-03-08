@@ -5,27 +5,22 @@
 #include "arch/x86/include/generated/uapi/asm/unistd_64.h"
 
 int main(int argc, char ** argv) {
-	printf("Testing string input! ");
+	printf("Running tests!\n");
 	char str[50] = "This is a stupid message.";
 	int length = sizeof(str);
 
 	int inputSize = 10;
 	syscall(__NR_dm510_msgbox_put, str, inputSize);
-	printf("Input: ");
-	for( int i = 0; i < inputSize; i++){
-		printf("%c", str[i]);
-	}
-	printf("\n");
 
 	char* ret = malloc(length);
 	syscall(__NR_dm510_msgbox_get, ret, 25);
-	printf("Output: %s\n", ret);
-	printf("%s\n", ret == "This is a stupid message." ? "PASSED" : "FAILED");
+	printf("Input 0: %s\n", ret);
+	printf("%s\n", ret == "This is a stupid message." ? "\033[0;32mPASSED\033[0m;" : "FAILED");
 	free(ret);
 
-	printf("Testing input order! \n");
+	//printf("Testing input order! \n");
 
-	
+
 	int cLength = sizeof(char);
 	syscall(__NR_dm510_msgbox_put, 'A', cLength);
 	syscall(__NR_dm510_msgbox_put, 'B', cLength);
