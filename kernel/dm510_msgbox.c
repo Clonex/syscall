@@ -43,6 +43,12 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 					msg->previous = top;
 					top = msg;
 				}
+				/* These lines are for testing */
+				printk("msg_t attributes:\n");
+				printk("	previous: %p", msg->previous);
+				printk("	length: %d", msg->length);
+				printk("	message: %s", msg->message);
+				/* Testing done */
 				local_irq_restore(flags);
 				return 0;
 			}
