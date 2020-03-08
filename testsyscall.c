@@ -17,7 +17,7 @@ int main(int argc, char ** argv) {
 
 	char* ret = malloc(length);
 	syscall(__NR_dm510_msgbox_get, ret, length);
-	printf("[Input / Output] Test 0: %s\n", strcmp(ret, str) == 0 ? successMsg : failedMsg);
+	printf("[Input / Output]\tTest 0: %s\n", strcmp(ret, str) == 0 ? successMsg : failedMsg);
 	free(ret);
 
 	int cLength = sizeof(char);
@@ -30,21 +30,21 @@ int main(int argc, char ** argv) {
 
 	ret = malloc(length);
 	syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("[Input order] Test 1: %s\n", *ret == 'C' ? successMsg : failedMsg);
+	printf("[Input order]\t\tTest 1: %s\n", *ret == 'C' ? successMsg : failedMsg);
 
 	syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("[Input order] Test 2: %s\n", *ret == 'B' ? successMsg : failedMsg);
+	printf("[Input order]\t\tTest 2: %s\n", *ret == 'B' ? successMsg : failedMsg);
 
 	syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("[Input order] Test 3: %s\n", *ret == 'A' ? successMsg : failedMsg);
+	printf("[Input order]\t\tTest 3: %s\n", *ret == 'A' ? successMsg : failedMsg);
 
 	int out = syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("[Empty stack] Test 4: %s\n", abs(out) == ENODATA ? successMsg : failedMsg);
+	printf("[Empty stack]\t\tTest 4: %s\n", abs(out) == ENODATA ? successMsg : failedMsg);
 
 	out = syscall(__NR_dm510_msgbox_get, ret, -1);
-	printf("[Invalid get length] Test 5: %s\n", abs(out) == EINVAL ? successMsg : failedMsg);
+	printf("[Invalid get length]\tTest 5: %s\n", abs(out) == EINVAL ? successMsg : failedMsg);
 
 	out = syscall(__NR_dm510_msgbox_put, ret, -1);
-	printf("[Invalid put length] Test 6: %s\n", abs(out) == EINVAL ? successMsg : failedMsg);
+	printf("[Invalid put length]\tTest 6: %s\n", abs(out) == EINVAL ? successMsg : failedMsg);
 	free(ret);
 }
