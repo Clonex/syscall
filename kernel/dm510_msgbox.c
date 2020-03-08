@@ -44,10 +44,7 @@ int sys_dm510_msgbox_put( char *buffer, int length ){
 					top = msg;
 				}
 				/* These lines are for testing */
-				printk("msg_t attributes:\n");
-				printk("	previous == NULL?: %d", msg->previous == NULL);
-				printk("	length: %d", msg->length);
-				printk("	message: %s", msg->message);
+				printk("After put. previous == NULL?: %d", msg->previous == NULL);
 				/* Testing done */
 				local_irq_restore(flags);
 				return 0;
@@ -73,10 +70,20 @@ int sys_dm510_msgbox_get( char* buffer, int length ) {
 		char *tmp = msg->message;
 		int mlength = msg->length;
 
+		/* Test lines */
+		printk("Before get. Top == NULL?: %d", top == NULL);
+		printk("Before get. Top->previous == NULL?: %d", top->previous == NULL);
+		/* End of test lines */
+
 		/* copy message */
 		if( copy_to_user( buffer, tmp, length ) == 0 ){ //copied everything 
 			/* pop the stack */
 			top = msg->previous;
+
+			/* Test lines */
+			printk("After get. Top == NULL?: %d", top == NULL);
+			/* End of test lines */
+
 
 			/* free memory */
 			kfree(tmp);
