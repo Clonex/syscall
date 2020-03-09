@@ -7,14 +7,14 @@
 
 void get(char* buffer, int length){
     int err = syscall(__NR_dm510_msgbox_get, buffer, length);
-    err = err < 0 ? (-1) * err : 0
+    err = err < 0 ? (-1) * err : 0;
     printf("\tExitcode: %d, %s\n", err, strerror(err));
     printf("\tResult of get: %s\n\n", buffer);
 }
 
 void put(char* buffer, int length){
     int err = syscall(__NR_dm510_msgbox_put, buffer, length);
-    err = err < 0 ? (-1) * err : 0
+    err = err < 0 ? (-1) * err : 0;
     printf("\tExitcode: %d, %s\n\n", err, strerror(err));
 }
 
