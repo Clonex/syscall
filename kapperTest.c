@@ -99,7 +99,7 @@ int main(int argc, char ** argv) {
     printf("\tPutting message 'You're a bold one!' (size = 19) with length = -10...");
     syscall(__NR_dm510_msgbox_put, str3, -10);
     printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting a message with length = 19...")
+    printf("\tGetting a message with length = 19...");
     syscall(__NR_dm510_msgbox_get, ret4, size);
     printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
     printf("\tResult of get: %s\n", ret4);
@@ -107,7 +107,7 @@ int main(int argc, char ** argv) {
     printf("\tPutting message 'You're a bold one!' (size = 19) with length = 19...");
     syscall(__NR_dm510_msgbox_put, str3, -10);
     printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting a message with length = -2...")
+    printf("\tGetting a message with length = -2...");
     syscall(__NR_dm510_msgbox_get, ret4, size);
     printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
     printf("\tResult of get: %s\n", ret4);
@@ -115,7 +115,7 @@ int main(int argc, char ** argv) {
 
     char* ret5 = malloc(size);
     printf("Final test: getting from an empty stack:\n");
-    printf("\tGetting a message with length = 20...")
+    printf("\tGetting a message with length = 20...");
     syscall(__NR_dm510_msgbox_get, ret5, 20);
     printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
     printf("\tResult of get: %s\n", ret5);
