@@ -7,13 +7,13 @@
 
 void get(char* buffer, int length){
     syscall(__NR_dm510_msgbox_get, buffer, length);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", buffer);
+    printf("\tExitcode: %d, %s\n", (int)errno, strerror(errno));
+    printf("\tResult of get: %s\n\n", buffer);
 }
 
 void put(char* buffer, int length){
     syscall(__NR_dm510_msgbox_put, buffer, length);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
+    printf("\tExitcode: %d, %s\n\n", (int)errno, strerror(errno));
 }
 
 int main(int argc, char ** argv) {
@@ -35,9 +35,9 @@ int main(int argc, char ** argv) {
 
     printf("\tPutting three messages...\n");
     for( int i = 1; i < 4; i++ ){
-        syscall(__NR_dm510_msgbox_put, str1, size);
         sprintf(&str1[4], "%d", i);
         printf("\tMsg #%d: %s\n", i, str1);
+        syscall(__NR_dm510_msgbox_put, str1, size);
     }
     
     printf("\tGetting three messages...\n");
