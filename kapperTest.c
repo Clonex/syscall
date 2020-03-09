@@ -5,15 +5,15 @@
 #include <unistd.h>
 #include "arch/x86/include/generated/uapi/asm/unistd_64.h"
 
-void get(char* buffer, int length){
-    int err = syscall(__NR_dm510_msgbox_get, buffer, length);
+void get(char* buffer, int buffer size){
+    int err = syscall(__NR_dm510_msgbox_get, buffer, buffer size);
     err = err < 0 ? (-1) * err : 0;
     printf("\tExitcode: %d, %s\n", err, strerror(err));
     printf("\tResult of get: %s\n\n", buffer);
 }
 
-void put(char* buffer, int length){
-    int err = syscall(__NR_dm510_msgbox_put, buffer, length);
+void put(char* buffer, int buffer size){
+    int err = syscall(__NR_dm510_msgbox_put, buffer, buffer size);
     err = err < 0 ? (-1) * err : 0;
     printf("\tExitcode: %d, %s\n\n", err, strerror(err));
 }
@@ -28,6 +28,13 @@ int main(int argc, char ** argv) {
     int size = sizeof(str);
     char* ret = malloc(size);
     printf("Testing begun!\nFirst test: putting/getting a message:\n");
+    printf("First of all: getting from an empty stack:\n");
+    printf("\tGetting a message with buffer size = 20...\n");
+    get(ret, size);
+
+    ret = freeAndMalloc(ret, size);
+    
+    printf("Next text: passing a message:\n");
     printf("Putting the message 'Hello There!'...\n");
     put(str, size);
     printf("Getting a message...\n");
@@ -53,42 +60,43 @@ int main(int argc, char ** argv) {
     }
     free(ret);
     
-    printf("\nNext test: putting with different lengths:\n");
+    printf("\nNext test: putting with different buffer sizes:\n");
     char str2[] = "General Kenobi!";
     size = sizeof(str2);
     ret = malloc(size);
     
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 25...\n");
-    put(str2, 25);
-    printf("\tGetting message with length = 16...\n");
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 16...\n");
+    put(str2, 16);
+    printf("\tGetting message with buffer size = 16...\n");
     get(ret, 16);
     
     ret = freeAndMalloc(ret, size);
 
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 10...\n");
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 10...\n");
     put(str2, 10);
-    printf("\tGetting message with length = 16...\n");
+    printf("\tGetting message with buffer size = 16...\n");
     get(ret, size);
 
     ret = freeAndMalloc(ret, size);
 
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 0...\n");
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 0...\n");
     put(str2, 0);
-    printf("\tGetting message with length = 16...\n");
+    printf("\tGetting message with buffer size = 16...\n");
     get(ret, size);
 
     ret = freeAndMalloc(ret, size);
 
     printf("Next test: getting with different lengths:\n");
     
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 16...\n");
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 16...\n");
     put(str2, size);
-    printf("\tGetting message with length = 20...\n");
+    printf("\tGetting message with buffer size = 20...\n");
     get(ret, 20);
 
     ret = freeAndMalloc(ret, size);
     
-    printf("\tGetting message with length = 1...\n");
+    put(str2, size);
+    printf("\tGetting message with buffer size = 1...\n");
     get(ret, 1);
 
     free(ret);
@@ -99,23 +107,16 @@ int main(int argc, char ** argv) {
     size = sizeof(str3);
     ret = malloc(size);
 
-    printf("\tPutting message 'You're a bold one!' (size = 19) with length = -10...\n");
+    printf("\tPutting message 'You're a bold one!' (size = 19) with buffer size = -10...\n");
     put(str3, -10);
-    printf("\tGetting a message with length = 19...\n");
-    get(ret, size);
 
-    printf("\tPutting message 'You're a bold one!' (size = 19) with length = 19...\n");
+    printf("\tPutting message 'You're a bold one!' (size = 19) with buffer size = 19...\n");
     put(str3, 19);
-    printf("\tGetting a message with length = -2...\n");
+    printf("\tGetting a message with buffer size = -2...\n");
     get(ret, -2);
 
-    free(ret);
-
-    ret = malloc(size);
-    printf("Final test: getting from an empty stack:\n");
-    printf("\tGetting a message with length = 20...\n");
-    get(ret, 20);
-
+    printf("Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
+    get(ret, 5);
     free(ret);
 
     return 0;
