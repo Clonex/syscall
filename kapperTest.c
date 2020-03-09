@@ -42,7 +42,7 @@ int main(int argc, char ** argv) {
     
     printf("\tGetting three messages...\n");
     for( int i = 1; i < 4; i++ ){
-        syscall(__NR_dm510_msgbox_put, ret1, size);
+        syscall(__NR_dm510_msgbox_get, ret1, size);
         printf("\tMsg #%d: %s\n", i, ret1);
     }
     free(ret1);
