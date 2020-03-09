@@ -25,7 +25,6 @@ int main(int argc, char ** argv) {
     char str[] = "Hello There!";
     int size = sizeof(str);
     char* ret = malloc(size);
-    
     printf("Testing begun!\nFirst test: putting/getting a message:\n");
     printf("Putting the message 'Hello There!'...\n");
     put(str, size);
@@ -63,12 +62,20 @@ int main(int argc, char ** argv) {
     get(ret30, 16);
     
     char* ret31 = freeAndMalloc(ret30, size);
-
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 10...\n");
-    put(str2, 10);
+	char bitch[] = "Heyo";
+	get(ret31, 16);  
+  printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 10...\n");
+    put(bitch, 3);
     printf("\tGetting message with length = 16...\n");
-    get(ret31, size);
+	char* tmp = malloc(76);
+	    get(tmp, 60);
 
+	for( int j = 0; j < 10; j++){
+		char* tmp = malloc(16);
+		get(tmp, 16);
+		free(tmp);
+	}
+	return 0;
     char* ret32 = freeAndMalloc(ret31, size);
 
     printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 0...\n");
