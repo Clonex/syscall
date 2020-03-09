@@ -5,6 +5,17 @@
 #include <unistd.h>
 #include "arch/x86/include/generated/uapi/asm/unistd_64.h"
 
+void get(char* buffer, int length){
+    syscall(__NR_dm510_msgbox_get, buffer, length);
+    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
+    printf("\tResult of get: %s\n", buffer);
+}
+
+void put(char* buffer, int length){
+    syscall(__NR_dm510_msgbox_put, buffer, length);
+    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
+}
+
 int main(int argc, char ** argv) {
     char str[] = "Hello There!";
     int size = sizeof(str);
@@ -25,7 +36,7 @@ int main(int argc, char ** argv) {
     printf("\tPutting three messages...\n");
     for( int i = 1; i < 4; i++ ){
         syscall(__NR_dm510_msgbox_put, str1, size);
-        sprintf(str1[4], "%d", i);
+        sprintf(&str1[4], "%d", i);
         printf("\tMsg #%d: %s\n", i, str1);
     }
     
@@ -108,19 +119,8 @@ int main(int argc, char ** argv) {
     printf("Final test: getting from an empty stack:\n");
     printf("\tGetting a message with length = 20...\n");
     get(ret5, 20);
-    
+
     free(ret5);
 
     return 0;
-}
-
-void get(char* buffer, int length){
-    syscall(__NR_dm510_msgbox_get, buffer, length);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", buffer);
-}
-
-void put(char* buffer, int length){
-    syscall(__NR_dm510_msgbox_put, buffer, length);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
 }
