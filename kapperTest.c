@@ -3,6 +3,8 @@
 #include <stdlib.h> 
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "arch/x86/include/generated/uapi/asm/unistd_64.h"
 
 void get(char* buffer, int size){
