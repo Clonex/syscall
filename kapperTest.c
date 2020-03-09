@@ -18,7 +18,7 @@ void put(char* buffer, int length){
 
 char* freeAndMalloc(char*, size ;buffer, int size){
     free(buffer);
-    return malloc(size);
+    return (char*)malloc(size);
 }
 
 int main(int argc, char ** argv) {
