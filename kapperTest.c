@@ -121,13 +121,12 @@ int main(int argc, char ** argv) {
     printf("Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
     get(ret, 5);
     syscall(__NR_dm510_msgbox_get, ret, size);
-    free(ret);
+    ret = freeAndMalloc(ret, size);
 
     printf("Testing message passing between multiple processes:\n");
-    printf("\tForking...\n");
     char msg[] = "Hey Parent!";
     size = sizeof(msg);
-    ret = freeAndMalloc(ret, size);
+    printf("\tForking...\n");
     __pid_t pid = fork();
     if( pid == 0 ){
         /* Child process */
