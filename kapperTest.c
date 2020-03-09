@@ -16,7 +16,7 @@ void put(char* buffer, int length){
     printf("\tExitcode: %d, %s\n\n", (int)errno, strerror(errno));
 }
 
-char* freeAndMalloc(char*, size buffer, int size){
+char* freeAndMalloc(char*, size ;buffer, int size){
     free(buffer);
     return malloc(size);
 }
@@ -62,21 +62,21 @@ int main(int argc, char ** argv) {
     printf("\tGetting message with length = 16...\n");
     get(ret30, 16);
     
-    char* ret31 = freeAndMalloc(ret30, size)
+    char* ret31 = freeAndMalloc(ret30, size);
 
     printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 10...\n");
     put(str2, 10);
     printf("\tGetting message with length = 16...\n");
     get(ret31, size);
 
-    char* ret32 = freeAndMalloc(ret31, size)
+    char* ret32 = freeAndMalloc(ret31, size);
 
     printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 0...\n");
     put(str2, 0);
     printf("\tGetting message with length = 16...\n");
     get(ret32, size);
 
-    char* ret40 = freeAndMalloc(ret32, size)
+    char* ret40 = freeAndMalloc(ret32, size);
 
     printf("Next test: getting with different lengths:\n");
     
@@ -85,12 +85,12 @@ int main(int argc, char ** argv) {
     printf("\tGetting message with length = 20...\n");
     get(ret40, 20);
 
-    char* ret41 = freeAndMalloc(ret40, size)
+    char* ret41 = freeAndMalloc(ret40, size);
     
     printf("\tGetting message with length = 1...\n");
     get(ret41, 1);
 
-    char* ret42 = freeAndMalloc(ret41, size)
+    char* ret42 = freeAndMalloc(ret41, size);
     
     printf("\tGetting message with length = 0...\n");
     get(ret42, 0);
