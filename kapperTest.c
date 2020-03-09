@@ -86,7 +86,8 @@ int main(int argc, char ** argv) {
 
     ret = freeAndMalloc(ret, size);
 
-    printf("Next test: getting with different lengths:\n");
+
+    printf("Next test: getting with different buffer sizes:\n");
     
     printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 16...\n");
     put(str2, size);
@@ -96,8 +97,8 @@ int main(int argc, char ** argv) {
     ret = freeAndMalloc(ret, size);
     
     put(str2, size);
-    printf("\tGetting message with buffer size = 1...\n");
-    get(ret, 1);
+    printf("\tGetting message with buffer size = 16...\n");
+    get(ret, 16);
 
     free(ret);
     
@@ -117,6 +118,7 @@ int main(int argc, char ** argv) {
 
     printf("Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
     get(ret, 5);
+    syscall(__NR_dmg510_msgbox_get, ret, size);
     free(ret);
 
     return 0;
