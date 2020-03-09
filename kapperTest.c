@@ -5,15 +5,15 @@
 #include <unistd.h>
 #include "arch/x86/include/generated/uapi/asm/unistd_64.h"
 
-void get(char* buffer, int buffer size){
-    int err = syscall(__NR_dm510_msgbox_get, buffer, buffer size);
+void get(char* buffer, int size){
+    int err = syscall(__NR_dm510_msgbox_get, buffer, size);
     err = err < 0 ? (-1) * err : 0;
     printf("\tExitcode: %d, %s\n", err, strerror(err));
     printf("\tResult of get: %s\n\n", buffer);
 }
 
-void put(char* buffer, int buffer size){
-    int err = syscall(__NR_dm510_msgbox_put, buffer, buffer size);
+void put(char* buffer, int size){
+    int err = syscall(__NR_dm510_msgbox_put, buffer, size);
     err = err < 0 ? (-1) * err : 0;
     printf("\tExitcode: %d, %s\n\n", err, strerror(err));
 }
