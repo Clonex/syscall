@@ -34,7 +34,7 @@ int main(int argc, char ** argv) {
 
     ret = freeAndMalloc(ret, size);
     
-    printf("Next text: passing a message:\n");
+    printf("Next test: passing a message:\n");
     printf("Putting the message 'Hello There!'...\n");
     put(str, size);
     printf("Getting a message...\n");
@@ -118,8 +118,25 @@ int main(int argc, char ** argv) {
 
     printf("Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
     get(ret, 5);
-    syscall(__NR_dmg510_msgbox_get, ret, size);
+    syscall(__NR_dm510_msgbox_get, ret, size);
     free(ret);
+
+    printf("Testing message passing between multiple processes:\n");
+    __pid_t pid = fork();
+    char msg[] = "Hey Parent!";
+    size = sizeof(msg);
+    if( pid == 0 ){
+        /* Child process */
+        printf("\tChild process putting the message: 'Hey Parent!'...\n");
+        put(msg, size);
+    }
+    else{
+        /* Parent process */
+        wait(NULL);
+        ret = freeAndMalloc(ret, size);
+        printf("\tParent process getting a message...\n");
+        get(ret, size);
+    }
 
     return 0;
 }
