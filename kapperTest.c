@@ -27,7 +27,6 @@ int main(int argc, char ** argv) {
     char str[] = "Hello There!";
     int size = sizeof(str);
     char* ret = malloc(size);
-    
     printf("Testing begun!\nFirst test: putting/getting a message:\n");
     printf("Putting the message 'Hello There!'...\n");
     put(str, size);
