@@ -16,6 +16,11 @@ void put(char* buffer, int length){
     printf("\tExitcode: %d, %s\n\n", (int)errno, strerror(errno));
 }
 
+char* freeAndMalloc(char* buffer, int size){
+    free(buffer);
+    return malloc(size);
+}
+
 int main(int argc, char ** argv) {
     char str[] = "Hello There!";
     int size = sizeof(str);
@@ -47,55 +52,50 @@ int main(int argc, char ** argv) {
     }
     free(ret1);
     
-    printf("Next test: putting with different lengths:\n");
+    printf("\nNext test: putting with different lengths:\n");
     char str2[] = "General Kenobi!";
     size = sizeof(str2);
-    char* ret3 = malloc(size);
+    char* ret30 = malloc(size);
     
     printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 25...\n");
     put(str2, 25);
     printf("\tGetting message with length = 16...\n");
-    get(ret3, 16);
+    get(ret30, 16);
     
-    free(ret3);
-    ret3 = malloc(size);
+    char* ret31 = freeAndMalloc(ret30)
 
     printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 10...\n");
     put(str2, 10);
     printf("\tGetting message with length = 16...\n");
-    get(ret3, size);
+    get(ret31, size);
 
-    free(ret3);
-    ret3 = malloc(size);
+    char* ret32 = freeAndMalloc(ret31)
 
     printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 0...\n");
     put(str2, 0);
     printf("\tGetting message with length = 16...\n");
-    get(ret3, size);
+    get(ret32, size);
 
-    free(ret3);
-    ret3 = malloc(size);
-    
+    char* ret40 = freeAndMalloc(ret32)
+
     printf("Next test: getting with different lengths:\n");
     
     printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 16...\n");
     put(str2, size);
     printf("\tGetting message with length = 20...\n");
-    get(ret3, 20);
+    get(ret40, 20);
 
-    free(ret3);
-    ret3 = malloc(size);
+    char* ret41 = freeAndMalloc(ret40)
     
     printf("\tGetting message with length = 1...\n");
-    get(ret3, 1);
+    get(ret41, 1);
 
-    free(ret3);
-    ret3 = malloc(size);
+    char* ret42 = freeAndMalloc(ret41)
     
     printf("\tGetting message with length = 0...\n");
-    get(ret3, 0);
+    get(ret42, 0);
 
-    free(ret3);
+    free(ret42);
     
     
     printf("Next test: invalid input:\n");
