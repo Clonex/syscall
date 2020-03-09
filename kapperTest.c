@@ -16,7 +16,7 @@ void put(char* buffer, int length){
     printf("\tExitcode: %d, %s\n\n", (int)errno, strerror(errno));
 }
 
-char* freeAndMalloc(char*, size ;buffer, int size){
+char* freeAndMalloc(char* buffer, int size){
     free(buffer);
     return (char*)malloc(size);
 }
