@@ -39,12 +39,12 @@ int main(int argc, char ** argv) {
 	printf("[Input order]\t\tTest 3: %s\n", *ret == 'A' ? successMsg : failedMsg);
 
 	int out = syscall(__NR_dm510_msgbox_get, ret, cLength);
-	printf("[Empty stack]\t\tTest 4: %s\n", abs(out) == ENODATA ? successMsg : failedMsg);
+	printf("[Empty stack]\t\tTest 4: %s\n", out < 0 && abs(out) == ENODATA ? successMsg : failedMsg);
 
 	out = syscall(__NR_dm510_msgbox_get, ret, -1);
-	printf("[Invalid get length]\tTest 5: %s\n", abs(out) == EINVAL ? successMsg : failedMsg);
+	printf("[Invalid get length]\tTest 5: %s\n", out < 0 && abs(out) == EINVAL ? successMsg : failedMsg);
 
 	out = syscall(__NR_dm510_msgbox_put, ret, -1);
-	printf("[Invalid put length]\tTest 6: %s\n", abs(out) == EINVAL ? successMsg : failedMsg);
+	printf("[Invalid put length]\tTest 6: %s\n", out < 0 && abs(out) == EINVAL ? successMsg : failedMsg);
 	free(ret);
 }
