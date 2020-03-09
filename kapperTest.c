@@ -10,14 +10,11 @@ int main(int argc, char ** argv) {
     int size = sizeof(str);
     char* ret = malloc(size);
     
-    printf("Testing begun!\n First test: putting/getting a message:\n");
+    printf("Testing begun!\nFirst test: putting/getting a message:\n");
     printf("Putting the message 'Hello There!'...\n");
-    syscall(__NR_dm510_msgbox_put, str, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
+    put(str, size);
     printf("Getting a message...\n");
-    syscall(__NR_dm510_msgbox_get, ret, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret);
+    get(ret, size);
     free(ret);
 
     printf("Next test: order:\n");
@@ -28,7 +25,7 @@ int main(int argc, char ** argv) {
     printf("\tPutting three messages...\n");
     for( int i = 1; i < 4; i++ ){
         syscall(__NR_dm510_msgbox_put, str1, size);
-        str1[4] = (char)i;
+        sprintf(str1[4], "%d", i);
         printf("\tMsg #%d: %s\n", i, str1);
     }
     
@@ -44,50 +41,49 @@ int main(int argc, char ** argv) {
     size = sizeof(str2);
     char* ret3 = malloc(size);
     
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 25...");
-    syscall(__NR_dm510_msgbox_put, str2, 25);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting message with length = 16...");
-    syscall(__NR_dm510_msgbox_get, ret3, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret3);
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 25...\n");
+    put(str2, 25);
+    printf("\tGetting message with length = 16...\n");
+    get(ret3, 16);
+    
+    free(ret3);
+    ret3 = malloc(size);
 
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 10...");
-    syscall(__NR_dm510_msgbox_put, str2, 10);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting message with length = 16...");
-    syscall(__NR_dm510_msgbox_get, ret3, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret3);
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 10...\n");
+    put(str2, 10);
+    printf("\tGetting message with length = 16...\n");
+    get(ret3, size);
 
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 0...");
-    syscall(__NR_dm510_msgbox_put, str2, 0);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting message with length = 16...");
-    syscall(__NR_dm510_msgbox_get, ret3, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret3);
+    free(ret3);
+    ret3 = malloc(size);
 
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 0...\n");
+    put(str2, 0);
+    printf("\tGetting message with length = 16...\n");
+    get(ret3, size);
+
+    free(ret3);
+    ret3 = malloc(size);
     
     printf("Next test: getting with different lengths:\n");
     
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 16...");
-    syscall(__NR_dm510_msgbox_put, str2, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting message with length = 20...");
-    syscall(__NR_dm510_msgbox_get, ret3, 20);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret3);
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with length = 16...\n");
+    put(str2, size);
+    printf("\tGetting message with length = 20...\n");
+    get(ret3, 20);
 
-    printf("\tGetting message with length = 1...");
-    syscall(__NR_dm510_msgbox_get, ret3, 1);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret3);
+    free(ret3);
+    ret3 = malloc(size);
+    
+    printf("\tGetting message with length = 1...\n");
+    get(ret3, 1);
 
-    printf("\tGetting message with length = 0...");
-    syscall(__NR_dm510_msgbox_get, ret3, 0);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret3);
+    free(ret3);
+    ret3 = malloc(size);
+    
+    printf("\tGetting message with length = 0...\n");
+    get(ret3, 0);
+
     free(ret3);
     
     
@@ -96,30 +92,35 @@ int main(int argc, char ** argv) {
     size = sizeof(str3);
     char* ret4 = malloc(size);
 
-    printf("\tPutting message 'You're a bold one!' (size = 19) with length = -10...");
-    syscall(__NR_dm510_msgbox_put, str3, -10);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting a message with length = 19...");
-    syscall(__NR_dm510_msgbox_get, ret4, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret4);
+    printf("\tPutting message 'You're a bold one!' (size = 19) with length = -10...\n");
+    put(str3, -10);
+    printf("\tGetting a message with length = 19...\n");
+    get(ret4, size);
 
-    printf("\tPutting message 'You're a bold one!' (size = 19) with length = 19...");
-    syscall(__NR_dm510_msgbox_put, str3, -10);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tGetting a message with length = -2...");
-    syscall(__NR_dm510_msgbox_get, ret4, size);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret4);
+    printf("\tPutting message 'You're a bold one!' (size = 19) with length = 19...\n");
+    put(str3, 19);
+    printf("\tGetting a message with length = -2...\n");
+    get(ret4, -2);
+
     free(ret4);
 
     char* ret5 = malloc(size);
     printf("Final test: getting from an empty stack:\n");
-    printf("\tGetting a message with length = 20...");
-    syscall(__NR_dm510_msgbox_get, ret5, 20);
-    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
-    printf("\tResult of get: %s\n", ret5);
+    printf("\tGetting a message with length = 20...\n");
+    get(ret5, 20);
+    
     free(ret5);
 
     return 0;
+}
+
+void get(char* buffer, int length){
+    syscall(__NR_dm510_msgbox_get, buffer, length);
+    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
+    printf("\tResult of get: %s\n", buffer);
+}
+
+void put(char* buffer, int length){
+    syscall(__NR_dm510_msgbox_put, buffer, length);
+    printf("\tSyscall returned with exitcode: %d, %s\n", (int)errno, strerror(errno));
 }
