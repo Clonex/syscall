@@ -91,11 +91,6 @@ int main(int argc, char ** argv) {
     printf("\tGetting message with length = 1...\n");
     get(ret, 1);
 
-    ret = freeAndMalloc(ret, size);
-    
-    printf("\tGetting message with length = 0...\n");
-    get(ret, 0);
-
     free(ret);
     
     

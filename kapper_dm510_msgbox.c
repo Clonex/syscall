@@ -72,7 +72,7 @@ int sys_dm510_msgbox_get( char* buffer, int length ){
 	if( length < mlength ){
 		/* If the buffer is too small */
 		local_irq_restore(flags);
-		return -EFAULT; // Bad address
+		return -ENOBUFS; // No buffer space available
 	}
 
 	if( access_ok(buffer, length) ){
