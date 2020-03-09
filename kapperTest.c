@@ -122,15 +122,16 @@ int main(int argc, char ** argv) {
     free(ret);
 
     printf("Testing message passing between multiple processes:\n");
-    __pid_t pid = fork();
+    printf("\tForking...");
     char msg[] = "Hey Parent!";
     size = sizeof(msg);
+    __pid_t pid = fork();
     if( pid == 0 ){
         /* Child process */
         printf("\tChild process putting the message: 'Hey Parent!'...\n");
         put(msg, size);
     }
-    else{
+    else if(pid > 0){
         /* Parent process */
         wait(NULL);
         ret = freeAndMalloc(ret, size);
