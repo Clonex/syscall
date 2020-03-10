@@ -50,11 +50,10 @@ int main(int argc, char ** argv) {
 	free(ret);
 
 	__pid_t pid = fork();
-	if( pid == 0 ){
+	if( pid == 0 )
+	{
        syscall(__NR_dm510_msgbox_put, str, length);
-    }
-    else if(pid > 0){
-        /* Parent process */
+    }else if(pid > 0){
         wait(NULL);
 		char* rData = malloc(length);
 		syscall(__NR_dm510_msgbox_get, rData, length);

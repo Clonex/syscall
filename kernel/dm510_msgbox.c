@@ -82,7 +82,7 @@ int sys_dm510_msgbox_get( char* buffer, int length ){
 			return mlength;
 		}
 		local_irq_restore(flags);
-		return -EAGAIN; // Try again
+		return length < mlength ? -EFAULT : -EAGAIN; // Bad address / Try again
 	}
 	local_irq_restore(flags);
 	return -EFAULT; // Bad address
