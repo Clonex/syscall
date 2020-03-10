@@ -77,14 +77,14 @@ void test4(char* src, int size){
     printf("\tGetting message with buffer size = 16...\n");
     get(ret, 16);
     
-    ret = freeAndMalloc(size);
+    ret = freeAndMalloc(ret, size);
 
     printf("\tPutting message: '%s' (size = %d) with buffer size = 10...\n", src, size);
     put(src, 10);
     printf("\tGetting message with buffer size = 16...\n");
     get(ret, size);
 
-    ret = freeAndMalloc(size);
+    ret = freeAndMalloc(ret, size);
 
     printf("\tPutting message: '%s' (size = %d) with buffer size = 0...\n", src, size);
     put(src, 0);
@@ -103,7 +103,7 @@ void test5(char* src, int size){
     printf("\tGetting message with buffer size = 20...\n");
     get(ret, 20);
 
-    ret = freeAndMalloc(size);
+    ret = freeAndMalloc(ret, size);
 
     printf("\tPutting message: '%s' (size = %d) with buffer size = 16...\n", src, size);
     put(src, size);
@@ -132,7 +132,7 @@ void test7(char* src, int size){
     printf("\tPutting message '%s' (size = %d) with buffer size = -10...\n", src, size);
     put(src, -10);
 
-    ret = freeAndMalloc(size);
+    ret = freeAndMalloc(ret, size);
 
     printf("\tPutting message '%s' (size = %d) with buffer size = 19...\n", src, size);
     put(src, 19);
