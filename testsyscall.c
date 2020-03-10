@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <stdlib.h> 
 #include <string.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include "arch/x86/include/generated/uapi/asm/unistd_64.h"
 
