@@ -59,7 +59,7 @@ void test3(){
         syscall(__NR_dm510_msgbox_put, str1, size);
     }
     
-    printf("\tGetting three messages...\n");
+    printf("\n\tGetting three messages...\n");
     for( int i = 1; i < 4; i++ ){
         syscall(__NR_dm510_msgbox_get, ret, size);
         printf("\tMsg #%d: %s\n", i, ret);
@@ -69,7 +69,7 @@ void test3(){
 
 /* Putting with different buffer sizes */
 void test4(char* src, int size){
-    printf("\nTest4: putting with different buffer sizes:\n");
+    printf("Test4: putting with different buffer sizes:\n");
     char* ret = malloc(size);
     
     printf("\tPutting message: '%s' (size = %d) with buffer size = 16...\n", src, size);
@@ -116,9 +116,10 @@ void test5(char* src, int size){
 /* Too small buffer */
 void test6(char* src, int size){
     char* ret = malloc(size);
+    printf("Test7: Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
     printf("\tPutting message: '%s' (size = %d) with buffer size = 16...\n", src, size);
     put(src, size);
-    printf("Test7: Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
+    printf("\tGetting message with buffer size = 5...\n");
     get(ret, 5);
     syscall(__NR_dm510_msgbox_get, ret, size);
     free(ret);
@@ -165,7 +166,7 @@ void test8(){
 }
 
 int main(int argc, char ** argv) {
-    if(argc != 1){
+    if(argc != 2){
         printf("Wrong number of arguments. Aborting...\n");
         return 0;
     }
