@@ -25,28 +25,32 @@ char* freeAndMalloc(char* buffer, int size){
     return (char*)malloc(size);
 }
 
-int main(int argc, char ** argv) {
-    char str[] = "Hello There!";
-    int size = sizeof(str);
+/* Empty stack */
+void test1(int size){
     char* ret = malloc(size);
-    printf("Testing begun!\nFirst test: putting/getting a message:\n");
-    printf("First of all: getting from an empty stack:\n");
+    printf("Test1: getting from an empty stack:\n");
     printf("\tGetting a message with buffer size = 20...\n");
     get(ret, size);
+    free(ret);
+}
 
-    ret = freeAndMalloc(ret, size);
-    
-    printf("Next test: passing a message:\n");
-    printf("Putting the message 'Hello There!'...\n");
-    put(str, size);
+/* Passing a message */
+void test2(char* src, int size){
+    char* ret = malloc(size);
+    printf("Test2: passing a message:\n");
+    printf("Putting the message '%s'...\n", src);
+    put(src, size);
     printf("Getting a message...\n");
     get(ret, size);
     free(ret);
+}
 
-    printf("Next test: order:\n");
+/* Order of the stack */
+void test3(){
+    printf("Test3: order of the stack:\n");
     char str1[] = "Test1";
-    size = sizeof(str1);
-    ret = malloc(size);
+    int size = sizeof(str1);
+    char* ret = malloc(size);
 
     printf("\tPutting three messages...\n");
     for( int i = 1; i < 4; i++ ){
@@ -61,77 +65,94 @@ int main(int argc, char ** argv) {
         printf("\tMsg #%d: %s\n", i, ret);
     }
     free(ret);
+}
+
+/* Putting with different buffer sizes */
+void test4(char* src, int size){
+    printf("\nTest4: putting with different buffer sizes:\n");
+    char* ret = malloc(size);
     
-    printf("\nNext test: putting with different buffer sizes:\n");
-    char str2[] = "General Kenobi!";
-    size = sizeof(str2);
-    ret = malloc(size);
-    
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 16...\n");
-    put(str2, 16);
+    printf("\tPutting message: '%s' (size = %d) with buffer size = 16...\n", src, size);
+    put(src, 16);
     printf("\tGetting message with buffer size = 16...\n");
     get(ret, 16);
     
-    ret = freeAndMalloc(ret, size);
+    ret = freeAndMalloc(size);
 
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 10...\n");
-    put(str2, 10);
+    printf("\tPutting message: '%s' (size = %d) with buffer size = 10...\n", src, size);
+    put(src, 10);
     printf("\tGetting message with buffer size = 16...\n");
     get(ret, size);
 
-    ret = freeAndMalloc(ret, size);
+    ret = freeAndMalloc(size);
 
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 0...\n");
-    put(str2, 0);
+    printf("\tPutting message: '%s' (size = %d) with buffer size = 0...\n", src, size);
+    put(src, 0);
     printf("\tGetting message with buffer size = 16...\n");
     get(ret, size);
+    free(ret);
+}
 
-    ret = freeAndMalloc(ret, size);
-
-
-    printf("Next test: getting with different buffer sizes:\n");
+/* Getting with different buffer sizes */
+void test5(char* src, int size){
+    printf("Test5: getting with different buffer sizes:\n");
+    char* ret = malloc(size);
     
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 16...\n");
-    put(str2, size);
+    printf("\tPutting message: '%s' (size = %d) with buffer size = 16...\n", src, size);
+    put(src, size);
     printf("\tGetting message with buffer size = 20...\n");
     get(ret, 20);
 
-    ret = freeAndMalloc(ret, size);
-    
-    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 16...\n");
-    put(str2, size);
+    ret = freeAndMalloc(size);
+
+    printf("\tPutting message: '%s' (size = %d) with buffer size = 16...\n", src, size);
+    put(src, size);
     printf("\tGetting message with buffer size = 16...\n");
     get(ret, 16);
 
     free(ret);
-    
-    
-    printf("Next test: invalid input:\n");
-    char str3[] = "You're a bold one!";
-    size = sizeof(str3);
-    ret = malloc(size);
+}
 
-    printf("\tPutting message 'You're a bold one!' (size = 19) with buffer size = -10...\n");
-    put(str3, -10);
-
-    printf("\tPutting message 'You're a bold one!' (size = 19) with buffer size = 19...\n");
-    put(str3, 19);
-    printf("\tGetting a message with buffer size = -2...\n");
-    get(ret, -2);
-
-    printf("Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
+/* Too small buffer */
+void test6(char* src, int size){
+    char* ret = malloc(size);
+    printf("\tPutting message: '%s' (size = %d) with buffer size = 16...\n", src, size);
+    put(src, size);
+    printf("Test7: Attempting to get a message with a too small buffer:\n\tGetting a message with buffer size = 5...\n");
     get(ret, 5);
     syscall(__NR_dm510_msgbox_get, ret, size);
-    ret = freeAndMalloc(ret, size);
+    free(ret);
+}
 
+/* Invalid input */
+void test7(char* src, int size){
+    printf("Test7: invalid input:\n");
+    char* ret = malloc(size);
+
+    printf("\tPutting message '%s' (size = %d) with buffer size = -10...\n", src, size);
+    put(src, -10);
+
+    ret = freeAndMalloc(size);
+
+    printf("\tPutting message '%s' (size = %d) with buffer size = 19...\n", src, size);
+    put(src, 19);
+    printf("\tGetting a message with buffer size = -2...\n");
+    get(ret, -2);
+    free(ret);
+}
+
+/* Two processes */
+void test8(){
     printf("Testing message passing between multiple processes:\n");
     char msg[] = "Hey Parent!";
-    size = sizeof(msg);
+    int size = sizeof(msg);
+    char* ret = malloc(size);
+
     printf("\tForking...\n");
     __pid_t pid = fork();
     if( pid == 0 ){
         /* Child process */
-        printf("\tChild process putting the message: 'Hey Parent!'...\n");
+        printf("\tChild process putting the message: '%s'...\n", msg);
         put(msg, size);
     }
     else if(pid > 0){
@@ -141,6 +162,51 @@ int main(int argc, char ** argv) {
         get(ret, size);
         free(ret);
     }
+}
 
+int main(int argc, char ** argv) {
+    if(argc != 1){
+        printf("Wrong number of arguments. Aborting...\n");
+        return 0;
+    }
+    int test = atoi(argv[1]);
+    if(test < 1 || test > 8){
+        printf("Not a valid test. Aborting...\n");
+        return 0;
+    }
+    printf("Testing begun!\n\n");
+    char str1[] = "Hello There!";
+    int size1 = sizeof(str1);
+    char str2[] = "General Kenobi!";
+    int size2 = sizeof(str2);
+    char str3[] = "You're a bold one!";
+    int size3 = sizeof(str3);
+    switch(test){
+        case 1:
+            test1(size1);
+            break;
+        case 2:
+            test2(str1, size1);
+            break;
+        case 3:
+            test3();
+            break;
+        case 4:
+            test4(str2, size2);
+            break;
+        case 5:
+            test5(str2, size2);
+            break;
+        case 6:
+            test6(str2, size2);
+            break;
+        case 7:
+            test7(str3, size3);
+            break;
+        case 8:
+            test8();
+            break;
+    }
+    
     return 0;
 }
