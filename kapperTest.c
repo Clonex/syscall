@@ -98,6 +98,7 @@ int main(int argc, char ** argv) {
 
     ret = freeAndMalloc(ret, size);
     
+    printf("\tPutting message: 'General Kenobi!' (size = 16) with buffer size = 16...\n");
     put(str2, size);
     printf("\tGetting message with buffer size = 16...\n");
     get(ret, 16);
