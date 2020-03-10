@@ -47,4 +47,17 @@ int main(int argc, char ** argv) {
 	out = syscall(__NR_dm510_msgbox_put, ret, -1);
 	printf("[Invalid put length]\tTest 6: %s\n", out < 0 && abs(out) == EINVAL ? successMsg : failedMsg);
 	free(ret);
+
+	__pid_t pid = fork();
+	if( pid == 0 ){
+       syscall(__NR_dm510_msgbox_put, str, length);
+    }
+    else if(pid > 0){
+        /* Parent process */
+        wait(NULL);
+		char* rData = malloc(length);
+		syscall(__NR_dm510_msgbox_get, rData, length);
+		printf("[Multiple proccesses]\tTest 8: %s\n", strcmp(rData, str) == 0 ? successMsg : failedMsg);
+        free(rData);
+    }
 }
