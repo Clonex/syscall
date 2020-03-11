@@ -70,7 +70,7 @@ int sys_dm510_msgbox_get( char* buffer, int length ){
 		int mlength = msg->length;
 
 		/* copy message */
-		if( copy_to_user( buffer, tmp, mlength ) == 0 || length < mlength ){ //copied everything 
+		if( copy_to_user( buffer, tmp, mlength ) == 0){ //copied everything 
 			/* pop the stack */
 			top = msg->previous;
 			local_irq_restore(flags);
